@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccuweatherConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="footer.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+<body id="body" class="body-img-trans">
+    <!-- Navbar code -->
+    <nav class="navbar navbar-expand sticky-top navbar-dark bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="assets/AccuweatherConnect logo.png" alt="Logo" width="70" height="50" class="d-inline-block align-text-top">
+                Accuweather Connect
+            </a>
+            <div class="switch">
+                <img class="modechanger-img" id="theme-mode-img" src="assets/icons/brightness.png" alt="">
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar code end-->
+
+
+    <!-- Main viewport -->
+
+    <div class="time-search-bar">
+        <p id="live-time-p" class="live-time">Local Time :&emsp;<label class="live-time-time" id="live-time"></label></p>
+        <div class="div-search">
+            <input class="input-search" type="search" name="search-txt" id="search-field" placeholder="Enter Location here" value="Colombo">
+            <button class="btn-search" type="button" onclick="searchBtnOnClick()">Search</button>
+        </div>
+        
+    </div>
+    <div class="main-vison">
+        <div class="div-div">
+            <div id="current-location" class="current-weather">
+                <div>
+                    <div class="display-div-location">
+                        <div class="div-location-img">
+                            <img class="location-img" src="assets/icons/icons8-location-96.png" alt="">
+                        </div>
+                        <div class="div-lbl-city">
+                            <label id="lbl-city" class="lbl-city"></label><br> 
+                            <label id="lbl-country"></label>
+                        </div>
+                    </div> 
+                    <div class="div-date-details">
+                       
+                        <p ><h2 class="date-container-day" id="live-day"></h2>
+                        <h3 class="date-container-date"  id="date-container"></h3></p>
+                        
+                    </div>
+                    
+                </div>
+                <div class="div-current-condition">
+                    <div class="div-current-icon">
+                        <img id="condition-img" class="current-icon" src="" alt="">
+                    </div>
+                    
+                    <p id="current-temp" class="current-temp">27℃</p>
+                    <p id="current-weather-condition" class="current-weather-condition">Mostly Sunny</p>
+                </div>
+            </div>
+            <div class="map-frame" id="map">
+                <!-- <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.2479019622015!2d80.43518747500141!3d7.437798892573101!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae33998e0ef3519%3A0x160c2eb6aa08caec!2sICET%20Campus!5e0!3m2!1sen!2slk!4v1695292951101!5m2!1sen!2slk" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>     -->
+            </div>
+        </div>
+        <div class="div-condition-and-forecast">
+            <div id="div-aircondition" class="div-aircondition">
+                <div class="condition-heading">
+                    Condition
+                    <hr>
+                </div>
+                <div class="div-condition-display">
+                    <div class="div-condition-comp-display">
+                        <img class="condition-icon" src="assets/icons/thermometer (1).png" alt="">
+                        <label for="" class="condition-descrip">Real feel</label>
+                        <label for="" id="real-feel" class="condition-descrip-value"></label>
+                    </div>
+                </div>
+                <div class="div-condition-display">
+                    <div class="div-condition-comp-display">
+                        <img class="condition-icon" src="assets/icons/wind.png" alt="">
+                        <label for="" class="condition-descrip">Wind Speed</label>
+                        <label for="" id="wind-speed" class="condition-descrip-value"></label>
+                    </div>
+                </div>
+                <div class="div-condition-display">
+                    <div class="div-condition-comp-display">
+                        <img class="condition-icon" src="assets/icons/humidity.png" alt="">
+                        <label for="" class="condition-descrip">Humudity</label>
+                        <label for="" id="humidity" class="condition-descrip-value"></label>
+                    </div>
+                </div>
+                <div class="div-condition-display">
+                    <div class="div-condition-comp-display">
+                        <img class="condition-icon" src="assets/icons/rain.png" alt="">
+                        <label for="" class="condition-descrip">Precipitation</label>
+                        <label for="" id="precipitation" class="condition-descrip-value"></label>
+                    </div>
+                </div>
+                <div class="div-condition-display">
+                    <div class="div-condition-comp-display">
+                        <img class="condition-icon" src="assets/icons/uv.png" alt="">
+                        <label for="" class="condition-descrip">UV Index</label>
+                        <label for="" id="uv" class="condition-descrip-value"></label>
+                    </div>
+                </div>
+                
+    
+            </div>
+            <div id="div-3dayforecast" class="div-3dayforecast">
+                <div class="div-forecast-heading">
+                    3 Day Forecast
+                </div>
+
+                <div class="forecast-details">
+                    <div class="forecast-datail-date">
+                        <label id="forecast-day1-date"></label>
+                        <br>
+                        <label id="forecast-day1-day"></label>
+                    </div>
+                    <div>
+                        <img id="forecast-day1-image" class="forecast-img" src="" alt="">
+                    </div>
+                    <label id="forecast-day1-condition" class="forecast-condition"></label>
+                </div>
+                <div class="forecast-details">
+                    <div class="forecast-datail-date">
+                        <label id="forecast-day2-date"></label>
+                        <br>
+                        <label id="forecast-day2-day"></label>
+                    </div>
+                    <div>
+                        <img id="forecast-day2-image" class="forecast-img" src="" alt="">
+                    </div>
+                    <label id="forecast-day2-condition" class="forecast-condition"></label>
+                </div>
+                <div class="forecast-details">
+                    <div class="forecast-datail-date">
+                        <label id="forecast-day3-date"></label>
+                        <br>
+                        <label id="forecast-day3-day"></label>
+                    </div>
+                    <div>
+                        <img id="forecast-day3-image" class="forecast-img" src="" alt="">
+                    </div>
+                    <label id="forecast-day3-condition" class="forecast-condition"></label>
+                </div>
+                
+        
+            </div>
+        </div>
+    </div>
+    <!-- Main viewport ending -->
+
+
+    <!-- Previous weather data -->
+    <div id="past7days-id" class="div-day7-pastdata">
+        <div id="day7-pastdata-heading" class="day7-pastdata-heading">
+            <label class="lbl-day7-pastdata-heading" for="">Previous Weather Summary</label>
+        </div>
+        <div class="day7-pastdata-details">
+            <div id="div-previous-weather" class="div-previous-weather">
+                <div class="div-day7-pastdata-detail">
+                    <label id="pastdata-day7" class="day7-pastdata-lbldate"></label>
+                    <label id="pastdata-day7-day" class="day7-pastdata-lbldate"></label>
+                    <div class="day7-pastdata-img">
+                        <img id="patadata-day7-img" class="day7-pastdata-img-img" src="assets/icons/rain.png" alt="">
+                    </div>
+                    <label id="pastdata-day7-condition" class="lbl-day7-pastdata-temp">Rainny</label>
+                    <label id="pastdata-day7-temp" class="lbl-day7-pastdata-condition">27℃</label>
+                    
+                </div>
+            </div>
+            <div class="div-previous-weather">
+                <div class="div-day7-pastdata-detail">
+                    <label id="pastdata-day6" class="day7-pastdata-lbldate"></label>
+                    <label id="pastdata-day6-day" class="day7-pastdata-lbldate">Sun</label>
+                    <div class="day7-pastdata-img">
+                        <img id="patadata-day6-img" class="day7-pastdata-img-img" src="assets/icons/rain.png" alt="">
+                    </div>
+                    <label id="pastdata-day6-condition" class="lbl-day7-pastdata-temp">Rainny</label>
+                    <label id="pastdata-day6-temp" class="lbl-day7-pastdata-condition">27℃</label>
+                </div>
+            </div>
+            <div class="div-previous-weather">
+                <div class="div-day7-pastdata-detail">
+                    <label id="pastdata-day5" class="day7-pastdata-lbldate"></label>
+                    <label id="pastdata-day5-day" class="day7-pastdata-lbldate">Sun</label>
+                    <div class="day7-pastdata-img">
+                        <img id="patadata-day5-img" class="day7-pastdata-img-img" src="assets/icons/rain.png" alt="">
+                    </div>
+                    <label id="pastdata-day5-condition" class="lbl-day7-pastdata-temp">Rainny</label>
+                    <label id="pastdata-day5-temp" class="lbl-day7-pastdata-condition">27℃</label>
+                    
+                </div>
+            </div>
+            <div class="div-previous-weather">
+                <div class="div-day7-pastdata-detail">
+                    <label id="pastdata-day4" class="day7-pastdata-lbldate"></label>
+                    <label id="pastdata-day4-day" class="day7-pastdata-lbldate">Sun</label>
+                    <div class="day7-pastdata-img">
+                        <img id="patadata-day4-img" class="day7-pastdata-img-img" src="assets/icons/rain.png" alt="">
+                    </div>
+                    <label id="pastdata-day4-condition" class="lbl-day7-pastdata-temp">Rainny</label>
+                    <label id="pastdata-day4-temp" class="lbl-day7-pastdata-condition">27℃</label>
+                </div>
+            </div>
+            <div class="div-previous-weather">
+                <div class="div-day7-pastdata-detail">
+                    <label id="pastdata-day3" class="day7-pastdata-lbldate"></label>
+                    <label id="pastdata-day3-day" class="day7-pastdata-lbldate">Sun</label>
+                    <div class="day7-pastdata-img">
+                        <img id="patadata-day3-img" class="day7-pastdata-img-img" src="assets/icons/rain.png" alt="">
+                    </div>
+                    <label id="pastdata-day3-condition" class="lbl-day7-pastdata-temp">Rainny</label>
+                    <label id="pastdata-day3-temp" class="lbl-day7-pastdata-condition">27℃</label>
+                </div>
+            </div>
+            <div class="div-previous-weather">
+                <div class="div-day7-pastdata-detail">
+                    <label id="pastdata-day2" class="day7-pastdata-lbldate"></label>
+                    <label id="pastdata-day2-day" class="day7-pastdata-lbldate">Sun</label>
+                    <div class="day7-pastdata-img">
+                        <img id="patadata-day2-img" class="day7-pastdata-img-img" src="assets/icons/rain.png" alt="">
+                    </div>
+                    <label id="pastdata-day2-condition" class="lbl-day7-pastdata-temp">Rainny</label>
+                    <label id="pastdata-day2-temp" class="lbl-day7-pastdata-condition">27℃</label>
+                </div>
+            </div>
+            <div class="div-previous-weather">
+                <div class="div-day7-pastdata-detail">
+                    <label id="pastdata-day1" class="day7-pastdata-lbldate"></label>
+                    <label id="pastdata-day1-day" class="day7-pastdata-lbldate">Sun</label>
+                    <div class="day7-pastdata-img">
+                        <img id="patadata-day1-img" class="day7-pastdata-img-img" src="assets/icons/rain.png" alt="">
+                    </div>
+                    <label id="pastdata-day1-condition" class="lbl-day7-pastdata-temp">Rainny</label>
+                    <label id="pastdata-day1-temp" class="lbl-day7-pastdata-condition">27℃</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Previous weather data end-->
+
+    <!-- History Data Selector -->
+    <div class="div-weather-history">
+        <div class="weather-history-date">
+            <br>
+            <label class="lbl-date-pick">Select the Date </label>
+            <br>
+            <input class="date-picker" type="date" name="" id="">
+        </div>
+        <div class="weather-history-detail">
+            <table>
+                <tr>
+                    <td>Temperature &emsp;&ensp;&emsp;:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Wind speed &emsp;&ensp;&emsp;&nbsp;:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Precipitation &emsp;&emsp;&ensp;:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Humidity &emsp;&emsp;&emsp;&emsp;:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>UV Index &emsp;&emsp;&emsp;&emsp;:</td>
+                    <td></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>Sun Rise &emsp;&emsp;&emsp;&emsp;&ensp;:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Sunset &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Weather condition&ensp;:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>W</td>
+                    <td></td>
+                </tr>
+                
+            </table>
+
+        </div>
+
+    </div>
+    <!-- History Data Selector End -->
+
+    
+
+    <!-- Pricing -->
+    <div class="div-pricing">
+        <div class="div-pricing-heading">
+            Select Your Plan Today
+        </div>
+        <div class="div-pricing-plans">
+            <div class="pricing-plan">
+                <label class="pricing-plan-name">Basic</label>
+                <p class="pricing-plan-name-detail">The option you can enjoy</p>
+                <label class="pricing-plan-fee">$ Free</label>
+                <div class="div-pricing-details">
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Realtime Weather</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Forecast Weather : 3 Days</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Previous Weather : 7 Days</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Search Weather History</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/cross.png" alt="">
+                        <label>Weather Alerts : NO</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/cross.png" alt="">
+                        <label>Notofication : No</label>
+                    </div>
+                    
+                </div>
+                <button class="pricing-btn">Sign in</button>
+            </div>
+            <div class="pricing-plan">
+                <label class="pricing-plan-name">Pro</label>
+                <p class="pricing-plan-name-detail">For a Better Experince you can enjoy</p>
+                <label class="pricing-plan-fee">$ 50/<label class="class-fee-month">month</label></label>
+                <div class="div-pricing-details">
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Realtime Weather</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Forecast Weather : 3 Days</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Previous Weather : 7 Days</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Search Weather History</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Weather Alerts : YES</label>
+                    </div>
+                    <div>
+                        <img class="pricing-icon-img" src="assets/icons/checked.png" alt="">
+                        <label>Notofication : YES</label>
+                    </div>
+                    
+                </div>
+                <button class="pricing-btn">Subscribe</button>
+            </div>
+
+        </div>
+    </div>
+    <!-- Pricing -->
+
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="div-footer-image">
+            <img class="footer-img-sizing" src="assets/AccuweatherConnect logo.png" alt="">
+            <p class="footer-name">AccuweatherConnect.com</p>
+            <p class="copyright">©Thilina Peiris</p>
+        </div>
+        <div class="div-footer-details">
+            <label class="footer-contact-head">About Us</label><br>
+            <br>
+            <p>Welcome to AccuweatherConnect.com , <br>
+                your go-to source for accurate and user-friendly weather forecasts. <br>
+                We're dedicated to keeping you informed and safe, no matter where you are. <br>
+                Subscribe now and stay ahead of the weather!</p>
+        </div>
+        <div class="footer-contactus">
+            <label class="footer-contact-head">Contact us </label><br>
+            Name &emsp;&emsp; : <input class="contactus-text" type="text" name="" id=""><br><br>
+            Email &ensp;&emsp;&emsp;: <input class="contactus-text" type="email" name="" id=""><br><br>
+            Message &emsp;: <textarea name="" class="contactus-msg" cols="60" rows="3" ></textarea><br>
+            <button class="btn-contactus-submit">Submit</button>
+
+        </div>
+    </div>
+    <script src="script/index.js"></script>
+    <script src="script/apiconnect.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <div class="map" id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1L2kgtpbmnNFFAc0NafEvSGUH9i40RlQ&libraries=places&callback=myMap"></script>
+</body>
+</html>

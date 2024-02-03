@@ -25,6 +25,17 @@ const forecastDay1Img = $("#forecast-day1-image");
 const forecastDay2Img = $("#forecast-day2-image");
 const forecastDay3Img = $("#forecast-day3-image");
 
+
+const previousDatePick = document.getElementById("previous-date-pick");
+const prevoiusUv = $("#previous-uv");
+const prevoiusHumidity = $("#previous-humidity");
+const prevoiusPrecipitation = $("#prevoiud-precipitation");
+const prevoiusWindspeed = $("#previous-windspeed");
+const prevoiusTemp = $("#previous-temp");
+const prevoiusCondition = $("#previous-condition");
+const prevoiusSunset = $("#previous-sunset");
+const prevoiusSunrise = $("#previous-sunrise");
+
 const dayString = new Date().getDay();
 const dayArray =["Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun","Mon","Tue"];
 const dayArrayReverse =["Sun","Sat","Fri","Thu","Wed","Tue","Mon","Sun","Sat","Fri","Thu","Wed","Tue"];
@@ -36,14 +47,14 @@ console.log(last7history);
 const abc= $("#abcdefg");
 
 
-
 // const countryName = document.getElementById("lbl-country");
 searchBtnOnClick();
+// previousDateWeather();
 
 function searchBtnOnClick(){
     $.ajax({
         method : "GET",
-        url : `https://api.weatherapi.com/v1/current.json?key=58b3a31e66174a62ac525133232609&q=${searchName.value}`,
+        url : `http://api.weatherapi.com/v1/current.json?key=281340abfe554835b10111746240302&q=${searchName.value}&days=4`,
         success : (resp) => {
             // console.log(resp);
             const city= resp.location.name;
@@ -68,7 +79,7 @@ function searchBtnOnClick(){
 
     $.ajax({
         method : "GET",
-        url : `https://api.weatherapi.com/v1/forecast.json?key=58b3a31e66174a62ac525133232609&q=${searchName.value}&days=4`,
+        url : `http://api.weatherapi.com/v1/forecast.json?key=281340abfe554835b10111746240302&q=${searchName.value}&days=4`,
         success : (resp) => {
             // console.log(resp);
             
@@ -93,11 +104,11 @@ function searchBtnOnClick(){
     for (let i = 1; i < 8; i++) {
         $.ajax({
             method : "GET",
-            url : `https://api.weatherapi.com/v1/history.json?key=58b3a31e66174a62ac525133232609&q=${searchName.value}&dt=${last7history[i]}`,
+            url : `http://api.weatherapi.com/v1/history.json?key=281340abfe554835b10111746240302&q=${searchName.value}&dt=${last7history[i]}`,
             success : (resp) => {
                 // console.log(resp);
                 $("#pastdata-day"+i).text(resp.forecast.forecastday[0].date)
-                $("#pastdata-day"+i+"-day").text(dayArrayReverse[dayString+(i+5)])
+                $("#pastdata-day"+i+"-day").text(dayArrayReverse[dayString+(i+1)])
                 // console.log(dayArrayReverse[dayString+(i+1)]);
                 // console.log(last7history);
                 $("#patadata-day"+i+"-img").attr("src",resp.forecast.forecastday[0].day.condition.icon)
@@ -164,5 +175,32 @@ function myMap(data) {
       position: new google.maps.LatLng(lati, lon),
       map: map,
       title: data.location.name,
+    });
+}
+
+
+function previousDateWeather(){
+    $.ajax({
+        method : "GET",
+        url : `https://api.weatherapi.com/v1/history.json?key=281340abfe554835b10111746240302&q=${searchName.value}&dt=${previousDatePick.value}`,
+        success : (resp) => {
+            console.log(resp);
+            const city= resp.location.name;
+            //console.log(city);
+            // curentImg.text(resp.current.condition.icon)
+            //console.log(resp.current.condition.icon);
+            previousDatePick.value="";
+            prevoiusTemp.text(resp.forecast.forecastday.day.maxtemp_c+"℃")
+            prevoiusWindspeed.text(resp.forecast.forecastday.day.maxwind_kph+" kph")
+            prevoiusPrecipitation.text(resp.forecast.forecastday.day.totalprecip_mm+" mm")
+            prevoiusHumidity.text(resp.forecast.forecastday.day.avghumidity+" %")
+            prevoiusUv.text(resp.forecast.forecastday.day.uv+" ")
+            prevoiusSunrise.text(resp.forecast.forecastday.astro.sunrise)
+            prevoiusSunset.text(resp.forecast.forecastday.astro.sunset)
+            prevoiusCondition.text(resp.forecast.forecastday.day.condition.text)
+            // uv.text(resp.current.uv)
+            // precipitation.text(resp.current.precip_mm+" mm")
+          
+        }
     });
 }
